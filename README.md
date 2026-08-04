@@ -1,48 +1,67 @@
-# 反恐精英：网页突击
+# CS-like FPS — Godot 4 Edition
 
-> 一款基于 [Babylon.js] 开发的网页版第一人称射击游戏（FPS），旨在在浏览器中复刻经典的反恐精英核心体验。
+> A tactical first-person shooter inspired by Counter-Strike 1.6, rebuilt from the ground up in **Godot 4**.
 
-## 📸 游戏截图（或演示）
+## Why Godot?
 
-> *即将更新，不要着急。*
+The original Babylon.js prototype hit browser limitations fast—audio latency, pointer lock quirks, and single-threaded performance caps. Godot 4 gives us native desktop performance, real 3D navigation for AI bots, and a proper asset pipeline, all open-source.
 
-![游戏截图1](./screenshots/demo1.png)
-![游戏对战动图](./screenshots/demo.gif)
+## Tech Stack
 
-## ✨ 核心特性
+| Layer | Tech |
+|-------|------|
+| Engine | Godot 4.4 (Forward+) |
+| Language | GDScript |
+| Physics | Godot Physics |
+| AI | NavigationRegion3D + custom state machine |
+| Networking | Godot Multiplayer API (future) |
 
-- **核心玩法**：实现 WASD 移动 + 鼠标瞄准/射击，基础枪械（手枪/步枪）切换。
-- **敌人 AI**：敌人会主动追击玩家，并具备简单的受击反馈和死亡动画。
-- **交互反馈**：包含准星、生命值（HUD）、弹药数量、击杀得分等 UI 界面。
-- **物理碰撞**：玩家与地图墙体、障碍物的基础碰撞检测。
-- **视觉风格**：（填写你用的风格，如 Low Poly / 写实 / 赛博朋克等）。
+## Project Structure
 
-## 🛠 技术栈
+```
+scenes/
+  main.tscn          — Entry world + game manager
+  player.tscn        — FPS player controller
+  world.tscn         — Test arena (GridMap-based)
+scripts/
+  player.gd          — Movement, camera, input
+  weapon.gd          — Shooting, reloading, switching
+  game_manager.gd    — Round logic, score, spawning
+assets/
+  textures/          — Placeholder / procedural textures
+  models/            — Weapon & character models (future)
+  sounds/            — SFX & music
+```
 
-- **3D 引擎**：[Babylon.js](https://www.babylonjs.com/)
-- **构建工具**：[Vite](https://vitejs.dev/)
-- **开发语言**：TypeScript / JavaScript
-- **物理引擎**：[Cannon-es](https://github.com/pmndrs/cannon-es)
-- **包管理**：npm + GitHub Packages
+## Controls
 
-## 🚀 快速开始（本地运行）
+| Action | Key |
+|--------|-----|
+| Move | WASD |
+| Jump | Space |
+| Crouch | Ctrl |
+| Walk (slow) | Shift |
+| Shoot | LMB |
+| Aim | RMB |
+| Reload | R |
+| Weapon 1/2/3 | 1 / 2 / 3 |
 
-如果你想在本地跑起来这个项目，请按以下步骤操作：
+## Roadmap
 
-### 前置条件
-- Node.js (>= 16.x)
-- npm 或 yarn
+- [x] Godot 4 project scaffold
+- [ ] GridMap test arena (de_dust2 blockout style)
+- [ ] FPS controller with crouch & walk modifiers
+- [ ] Weapon system (AK-47, M4A1, AWP, Glock, USP)
+- [ ] Bot AI (patrol → investigate → attack)
+- [ ] Round-based economy (buy menu, armor, grenades)
+- [ ] Multiplayer (Godot multiplayer API)
 
-### 安装与启动
-```bash
-# 1. 克隆仓库
-git clone https://github.com/scholardream/Web-version-CS1.6-like-game.git
+## Run
 
-# 2. 进入目录
-cd Web-version-CS1.6-like-game
+1. Download [Godot 4.4](https://godotengine.org/)
+2. Open `project.godot` in the Godot editor
+3. Press **F5** or click the play button
 
-# 3. 安装依赖
-npm install
+## License
 
-# 4. 启动开发服务器
-npm run dev
+MIT
