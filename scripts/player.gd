@@ -10,7 +10,8 @@ class_name Player
 @export var stand_height: float = 1.8
 
 @export var weapon_model_path: String = "res://assets/models/low-poly_stg_44.glb"
-@export var weapon_scale: float = 0.08
+@export var weapon_scale: float = 0.5
+@export var weapon_rotation: Vector3 = Vector3(0, PI, 0)
 @export var weapon_rotation: Vector3 = Vector3(0, -PI / 2, 0)
 
 @onready var head: Node3D = $Head
@@ -42,6 +43,46 @@ func _ready() -> void:
     _load_weapon_model()
 
 func _load_weapon_model() -> void:
+    var scene := load(weapon_model_path) as PackedScene
+    if scene == null:
+        push_warning("Failed to load weapon model: " + weapon_model_path)
+        _create_debug_weapon()
+        return
+    
+    var weapon := scene.instantiate() as Node3D
+    if weapon == null:
+        push_warning("Weapon model is not a Node3D")
+        _create_debug_weapon()
+        return
+    
+    print("Weapon loaded: ", weapon.name, " with ", weapon.get_child_count(), " children")
+    
+    weapon.scale = Vector3(weapon_scale, weapon_scale, weapon_scale)
+    weapon.rotation = weapon_rotation
+    
+    # Clear existing children
+    for child in weapon_holder.get_children():
+        child.queue_free()
+    
+    weapon_holder.add_child(weapon)
+    print("Weapon placed at holder: pos=", weapon_holder.position, " scale=", weapon_scale)
+
+func _create_debug_weapon() -> void:
+    # Red box placeholder so you can see where the weapon should be
+    var mesh := BoxMesh.new()
+    mesh.size = Vector3(0.1, 0.1, 0.3)
+    var mat := StandardMaterial3D.new()
+    mat.albedo_color = Color(1, 0, 0)
+    mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+    mesh.material = mat
+    
+    var mi := MeshInstance3D.new()
+    mi.mesh = mesh
+    
+    for child in weapon_holder.get_children():
+        child.queue_free()
+    weapon_holder.add_child(mi)
+    print("DEBUG: red placeholder box shown at weapon holder")
     var scene := load(weapon_model_path) as PackedScene
     if scene == null:
         push_warning("Failed to load weapon model: " + weapon_model_path)

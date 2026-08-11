@@ -30,7 +30,7 @@ fov = 90.0
 near = 0.05
 
 [node name="WeaponHolder" type="Node3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.2, -0.45)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.15, -0.35)
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, 0, -100)
