@@ -12,7 +12,6 @@ class_name Player
 @export var weapon_model_path: String = "res://assets/models/low-poly_stg_44.glb"
 @export var weapon_scale: float = 0.5
 @export var weapon_rotation: Vector3 = Vector3(0, PI, 0)
-@export var weapon_rotation: Vector3 = Vector3(0, -PI / 2, 0)
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
@@ -60,7 +59,6 @@ func _load_weapon_model() -> void:
     weapon.scale = Vector3(weapon_scale, weapon_scale, weapon_scale)
     weapon.rotation = weapon_rotation
     
-    # Clear existing children
     for child in weapon_holder.get_children():
         child.queue_free()
     
@@ -68,7 +66,6 @@ func _load_weapon_model() -> void:
     print("Weapon placed at holder: pos=", weapon_holder.position, " scale=", weapon_scale)
 
 func _create_debug_weapon() -> void:
-    # Red box placeholder so you can see where the weapon should be
     var mesh := BoxMesh.new()
     mesh.size = Vector3(0.1, 0.1, 0.3)
     var mat := StandardMaterial3D.new()
@@ -83,24 +80,6 @@ func _create_debug_weapon() -> void:
         child.queue_free()
     weapon_holder.add_child(mi)
     print("DEBUG: red placeholder box shown at weapon holder")
-    var scene := load(weapon_model_path) as PackedScene
-    if scene == null:
-        push_warning("Failed to load weapon model: " + weapon_model_path)
-        return
-    
-    var weapon := scene.instantiate() as Node3D
-    if weapon == null:
-        push_warning("Weapon model is not a Node3D")
-        return
-    
-    weapon.scale = Vector3(weapon_scale, weapon_scale, weapon_scale)
-    weapon.rotation = weapon_rotation
-    
-    # Clear existing children
-    for child in weapon_holder.get_children():
-        child.queue_free()
-    
-    weapon_holder.add_child(weapon)
 
 func _input(event: InputEvent) -> void:
     if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -171,17 +150,14 @@ func _try_shoot() -> void:
     can_shoot = false
     get_tree().create_timer(FIRE_RATE).timeout.connect(func(): can_shoot = true)
 
-    # Visual recoil on weapon holder
     weapon_holder.position.z += 0.02
     get_tree().create_timer(0.05).timeout.connect(func(): weapon_holder.position.z -= 0.02)
 
-    # Raycast shoot
     raycast.force_raycast_update()
     if raycast.is_colliding():
         var collider := raycast.get_collider()
         var hit_point := raycast.get_collision_point()
         print("Hit: ", collider.name, " at ", hit_point)
-        # TODO: apply damage to collider if it has health
 
 func _try_reload() -> void:
     if is_reloading or current_ammo == MAGAZINE_SIZE or reserve_ammo <= 0:
