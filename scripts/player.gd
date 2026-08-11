@@ -16,8 +16,9 @@ signal died
 @export var max_health: int = 100
 
 @export var weapon_model_path: String = "res://assets/models/low-poly_stg_44.glb"
-@export var weapon_scale: float = 0.08
-@export var weapon_rotation: Vector3 = Vector3(0, -PI / 2, 0)
+@export var weapon_scale: float = 0.0008
+@export var weapon_rotation: Vector3 = Vector3(0, PI / 2, 0)
+@export var weapon_position: Vector3 = Vector3(0.0, -0.05, 0.0)
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
@@ -84,7 +85,17 @@ func _load_weapon_model() -> void:
 
     weapon.scale = Vector3(weapon_scale, weapon_scale, weapon_scale)
     weapon.rotation = weapon_rotation
+    weapon.position = weapon_position
+    _strip_bundled_scene_nodes(weapon)
     weapon_holder.add_child(weapon)
+
+
+func _strip_bundled_scene_nodes(root: Node) -> void:
+    # Sketchfab exports often bundle their preview Camera and Light;
+    # those would hijack the view / lighting, so remove them.
+    for node in root.find_children("*", "", true, false):
+        if node is Camera3D or node is Light3D:
+            node.queue_free()
 
 
 func _make_placeholder_weapon() -> MeshInstance3D:
