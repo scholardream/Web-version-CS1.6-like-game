@@ -24,12 +24,11 @@ scenes/
   player.tscn        — FPS player controller
   world.tscn         — Test arena (GridMap-based)
 scripts/
-  player.gd          — Movement, camera, input
-  weapon.gd          — Shooting, reloading, switching
-  game_manager.gd    — Round logic, score, spawning
+  player.gd          — Movement, camera, input, health, hitscan combat
+  game_manager.gd    — Round logic, score, HUD wiring
 assets/
   textures/          — Placeholder / procedural textures
-  models/            — Weapon & character models (future)
+  models/            — Weapon & character models (future; placeholder box used if missing)
   sounds/            — SFX & music
 ```
 
@@ -41,7 +40,7 @@ assets/
 | Jump | Space |
 | Crouch | Ctrl |
 | Walk (slow) | Shift |
-| Shoot | LMB |
+| Shoot (hold for full-auto) | LMB |
 | Aim | RMB |
 | Reload | R |
 | Weapon 1/2/3 | 1 / 2 / 3 |
@@ -50,7 +49,8 @@ assets/
 
 - [x] Godot 4 project scaffold
 - [ ] GridMap test arena (de_dust2 blockout style)
-- [ ] FPS controller with crouch & walk modifiers
+- [x] FPS controller with crouch & walk modifiers
+- [x] Hitscan combat: damage/health, full-auto fire, spread bloom, headshots
 - [ ] Weapon system (AK-47, M4A1, AWP, Glock, USP)
 - [ ] Bot AI (patrol → investigate → attack)
 - [ ] Round-based economy (buy menu, armor, grenades)
