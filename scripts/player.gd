@@ -6,7 +6,7 @@ signal ammo_changed(magazine: int, reserve: int)
 signal hit_landed
 signal died
 
-@export var mouse_sensitivity: float = 0.002
+@export var mouse_sensitivity: float = 0.001
 @export var base_speed: float = 5.0
 @export var walk_speed: float = 2.5
 @export var crouch_speed: float = 2.0
