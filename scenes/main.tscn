@@ -7,6 +7,7 @@
 [node name="Main" type="Node3D"]
 
 [node name="World" parent="." instance=ExtResource("2_world")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12045, 0.544286, -0.200768)
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -10)
